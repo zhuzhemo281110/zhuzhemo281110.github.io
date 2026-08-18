@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>💕 彭馨妤 & 朱哲墨 的小窝</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+        body {
+            background: linear-gradient(145deg, #fdf0f5 0%, #fce4ec 50%, #f8d8e0 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .app {
+            max-width: 420px;
+            width: 100%;
+            background: rgba(255, 248, 250, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 28px 22px 30px;
+            box-shadow: 0 30px 60px rgba(180, 80, 120, 0.15), 0 10px 30px rgba(0,0,0,0.04);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .header { text-align: center; padding-bottom: 18px; border-bottom: 2px dashed rgba(242, 139, 156, 0.3); }
+        .header h1 { font-size: 26px; font-weight: 700; color: #6b3f4e; letter-spacing: 2px; }
+        .header h1 i { color: #f28b9c; margin: 0 6px; }
+        .header .sub { font-size: 13px; color: #b58394; margin-top: 4px; letter-spacing: 4px; }
+        .timer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0; }
+        .timer-card {
+            background: linear-gradient(135deg, #ffe3ec, #ffd6e3);
+            border-radius: 20px;
+            padding: 14px 8px;
+            text-align: center;
+            box-shadow: inset 0 2px 8px rgba(255,255,255,0.6), 0 4px 12px rgba(200,100,130,0.08);
+        }
+        .timer-card .num { font-size: 32px; font-weight: 800; color: #6b2f42; }
+        .timer-card .label { font-size: 11px; color: #936b7a; letter-spacing: 1px; }
+        .card {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 220, 230, 0.25);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .card h3 { font-size: 16px; font-weight: 600; color: #6b3f4e; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .card h3 i { color: #f28b9c; }
+        .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .photo-grid .photo {
+            aspect-ratio: 1/1;
+            background: rgba(252, 228, 236, 0.6);
+            border-radius: 16px;
+            border: 2px dashed rgba(248, 205, 217, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #d6a8b8;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            transition: 0.2s;
+            overflow: hidden;
+        }
+        .photo-grid .photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
+        .photo-grid .photo:hover { transform: scale(0.97); }
+        .row { display: flex; gap: 8px; margin-bottom: 10px; }
+        .row input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid rgba(248, 205, 217, 0.5);
+            border-radius: 30px;
+            outline: none;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.7);
+            transition: 0.2s;
+        }
+        .row input:focus { border-color: #f28b9c; box-shadow: 0 0 0 3px rgba(242, 139, 156, 0.1); }
+        .row button {
+            padding: 12px 22px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        .row button:active { transform: scale(0.95); }
+        .btn-pink { background: #f28b9c; }
+        .btn-pink:hover { background: #e57385; }
+        .btn-purple { background: #b8a0c4; }
+        .btn-purple:hover { background: #a088b0; }
+        .btn-peach { background: #f5b8a0; }
+        .btn-peach:hover { background: #e8a088; }
+        .list { list-style: none; max-height: 160px; overflow-y: auto; padding-right: 4px; }
+        .list li {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 10px 14px;
+            border-radius: 14px;
+            margin-bottom: 6px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #f28b9c;
+            color: #4a2e3a;
+        }
+        .list li .del { color: #d68a9c; cursor: pointer; background: none; border: none; font-size: 16px; }
+        .wish-list li .done { text-decoration: line-through; color: #b07f93; opacity: 0.6; }
+        .wish-list li .act { display: flex; gap: 8px; }
+        .wish-list li .act button { background: none; border: none; cursor: pointer; font-size: 16px; }
+        .wish-list li .act .ok { color: #7fb07f; }
+        .wish-list li .act .del { color: #d68a9c; }
+        .heart-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #f28b9c, #e57385);
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 12px 0;
+            box-shadow: 0 6px 20px rgba(230, 100, 130, 0.2);
+            transition: 0.2s;
+        }
+        .heart-btn:active { transform: scale(0.96); }
+        .music {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 40px;
+            padding: 8px 18px;
+            border: 1px solid rgba(255, 220, 230, 0.3);
+            margin-top: 8px;
+            backdrop-filter: blur(4px);
+        }
+        .music i { font-size: 22px; color: #7c3f58; cursor: pointer; transition: 0.2s; }
+        .music i:hover { color: #f28b9c; }
+        .music .name { flex: 1; font-size: 13px; color: #5a3a4a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .music .progress {
+            flex: 1;
+            height: 4px;
+            background: rgba(200, 100, 130, 0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            max-width: 80px;
+        }
+        .music .progress .bar {
+            height: 100%;
+            width: 0%;
+            background: #f28b9c;
+            border-radius: 4px;
+            transition: width 0.1s;
+        }
+        .rain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; overflow: hidden; }
+        .rain span { position: absolute; top: -30px; font-size: 26px; animation: fall linear forwards; opacity: 0.8; }
+        @keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #fce4ec; border-radius: 8px; }
+        ::-webkit-scrollbar-thumb { background: #f8cdd9; border-radius: 8px; }
+        .tip { font-size: 11px; color: #b58394; text-align: center; margin-top: 6px; letter-spacing: 1px; opacity: 0.7; }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <div class="header">
+        <h1><span>彭馨妤</span> <i class="fas fa-heart"></i> <span>朱哲墨</span></h1>
+        <div class="sub">✨ 我们的专属世界 ✨</div>
+    </div>
+
+    <div class="timer-grid">
+        <div class="timer-card"><div class="num" id="days">0</div><div class="label">❤️ 在一起天数</div></div>
+        <div class="timer-card"><div class="num" id="countdown">0</div><div class="label">📅 距离纪念日</div></div>
+    </div>
+
+    <!-- ===== 照片墙 ===== -->
+    <div class="card">
+        <h3><i class="fas fa-images"></i> 照片墙 · 我们的时光</h3>
+        <div class="photo-grid" id="photoGrid">
+            <!-- 第1张：你的照片 -->
+            <div class="photo" style="background-image: url('data:image/jpeg;base64,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'); background-size: cover; background-position: center; border: none;"></div>
+            <!-- 第2-6张：空位 -->
+            <div class="photo" onclick="addPhoto(this)">+</div>
+            <div class="photo" onclick="addPhoto(this)">+</div>
+            <div class="photo" onclick="addPhoto(this)">+</div>
+            <div class="photo" onclick="addPhoto(this)">+</div>
+            <div class="photo" onclick="addPhoto(this)">+</div>
+        </div>
+        <p class="tip">💡 点击 + 号可上传新照片</p>
+    </div>
+
+    <!-- ===== 日常记录 ===== -->
+    <div class="card">
+        <h3><i class="fas fa-pen-fancy"></i> 今日小记</h3>
+        <div class="row">
+            <input id="diaryInput" placeholder="今天发生了什么美好的事？">
+            <button class="btn-pink" onclick="addDiary()">记录</button>
+        </div>
+        <ul class="
